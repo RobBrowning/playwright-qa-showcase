@@ -23,11 +23,20 @@ It exists to show how I approach automation as a QA lead: **fewer, clearer tests
 ## Quick start
 
 ```bash
+git clone https://github.com/RobBrowning/playwright-qa-showcase.git
+cd playwright-qa-showcase
 nvm use               # Node 22
 npm install
 npx playwright install chromium
+npx playwright test --ui   # interactive UI mode: pick, watch and debug tests
+```
+
+Headless runs:
+
+```bash
 npm test              # everything
 npm run test:smoke    # @smoke subset only
+npm run test:web      # desktop web UI project only
 npm run test:api      # API project only
 npm run report        # open the last HTML report
 ```
