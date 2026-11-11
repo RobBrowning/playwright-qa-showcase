@@ -26,7 +26,7 @@ It exists to show how I approach automation as a QA lead: **fewer, clearer tests
 git clone https://github.com/RobBrowning/playwright-qa-showcase.git
 cd playwright-qa-showcase
 nvm use               # Node 22
-npm install
+npm ci
 npx playwright install chromium
 npx playwright test --ui   # interactive UI mode: pick, watch and debug tests
 ```
