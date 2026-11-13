@@ -23,6 +23,14 @@ Never use an em dash or en dash in any file. Use a colon, comma or full stop ins
 - Third-party quirks get asserted and commented, never "fixed" in the test.
 - Record any structural decision as a new ADR in `docs/adr/`.
 
+## Playwright agents
+
+See ADR 0003. Planner, generator and healer live in `.claude/agents/`, the seed is `tests/ui/seed.spec.ts`.
+
+- Every agent change (plan, generated test or heal) goes through PR review. Agent output is a draft.
+- The healer may fix locators and timing. It must never change expected values, assertions or skips (`test.skip`, `test.fixme`) without asking first. Pass this rule to the healer every time it runs.
+- Re-run `npx playwright init-agents --loop=claude` on every Playwright upgrade, then reapply the seed and `.mcp.json` changes and review the diff.
+
 ## Do not
 
 - Commit `.env`, reports or `test-results/`.
