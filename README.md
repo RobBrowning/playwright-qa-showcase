@@ -13,6 +13,7 @@ It exists to show how I approach automation as a QA lead: **fewer, clearer tests
 
 ## What to look at
 
+- **[`.claude/agents/`](.claude/agents) and [`specs/`](specs)**: Playwright Test Agents (planner, generator, healer) wired into Claude Code. The planner wrote [`specs/product-detail.md`](specs/product-detail.md), the generator turned it into tests, and every agent change goes through PR review. Findings, including where the healer stopped rather than change a business assertion, are in [ADR 0003](docs/adr/0003-playwright-test-agents.md).
 - **[`docs/test-strategy.md`](docs/test-strategy.md)**: scope, risk-based selection, what is deliberately *not* automated and why.
 - **[`src/`](src)**: page objects, a typed API client and custom fixtures, so specs read as behaviour rather than plumbing.
 - **[`tests/`](tests)**: UI and API specs. `@smoke` tags mark the fast, high-value subset.
@@ -71,6 +72,7 @@ docs/
 ## Roadmap
 
 - [x] MVP: UI + API suites, POM, fixtures, CI matrix
+- [x] Playwright Test Agents: planner, generator and healer, with PR review of every agent change (ADR 0003)
 - [ ] Visual comparison for `visual_user` behaviour
 - [ ] Accessibility checks with axe-core
 - [ ] Contract-style schema validation on API responses
