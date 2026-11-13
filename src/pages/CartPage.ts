@@ -11,6 +11,15 @@ export class CartPage {
     this.checkoutButton = page.getByTestId('checkout');
   }
 
+  /** The product name link that opens the detail page. Same data-test as on the inventory page. */
+  titleLink(id: number): Locator {
+    return this.page.getByTestId(`item-${id}-title-link`);
+  }
+
+  itemPrice(name: string): Locator {
+    return this.items.filter({ hasText: name }).getByTestId('inventory-item-price');
+  }
+
   async expectLoaded(): Promise<void> {
     await expect(this.page).toHaveURL(/cart\.html/);
   }
