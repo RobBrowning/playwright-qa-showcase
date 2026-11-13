@@ -27,6 +27,9 @@ Show a realistic, maintainable approach to automating a web app and an API, not 
 | `performance_glitch_user` | A timing demo, not a functional check. Belongs in a performance tool, not an E2E suite. |
 | Every sort option x every browser | Sort is browser-independent logic. Desktop Chromium covers it; mobile runs only the `@smoke` subset. |
 | Restful-Booker PATCH | Same auth and payload rules as PUT. Adds runtime, not confidence. |
+| Cart state surviving a reload or direct URL on the product detail page (`specs/product-detail.md` 2.6) | No manual check replaces it. It exercises the demo app's client-side storage rather than a user journey, and cross-page cart state is already covered by scenarios 2.3 to 2.5. |
+| Browser back from the product detail page (`specs/product-detail.md` 3.2) | Browser history behaviour, not product logic. The app's own navigation is covered by "Back to products" (scenario 3.1). |
+| Lenient product id parsing, for example `?id=01`, `?id=1.5`, `?id=1&id=2` (`specs/product-detail.md` 4.3) | A third-party parsing detail with no user-facing value. Asserting it would pin behaviour nobody checks by hand, and any change by the demo app would turn the suite red for no business reason. |
 
 ## Test selection
 
