@@ -19,6 +19,14 @@ test.describe('Inventory', () => {
     expect(names).toEqual([...names].sort().reverse());
   });
 
+  test('sorts by name, A to Z', async ({ loggedIn }) => {
+    // SauceDemo lists A to Z by default, so sort Z to A first: otherwise this passes even if sorting is broken.
+    await loggedIn.sortBy('za');
+    await loggedIn.sortBy('az');
+    const names = await loggedIn.itemNames.allTextContents();
+    expect(names).toEqual([...names].sort());
+  });
+
   test('cart badge tracks add and remove @smoke', async ({ loggedIn }) => {
     await expect(loggedIn.cartBadge).toHaveCount(0);
     await loggedIn.addToCart('Sauce Labs Backpack');
