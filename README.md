@@ -1,6 +1,7 @@
 # Playwright QA Showcase
 
 [![Playwright tests](https://github.com/RobBrowning/playwright-qa-showcase/actions/workflows/playwright.yml/badge.svg)](https://github.com/RobBrowning/playwright-qa-showcase/actions/workflows/playwright.yml)
+[![Claude PR Review](https://github.com/RobBrowning/playwright-qa-showcase/actions/workflows/claude-review.yml/badge.svg)](https://github.com/RobBrowning/playwright-qa-showcase/actions/workflows/claude-review.yml)
 
 A small, deliberately well-structured test automation project built with **Playwright + TypeScript**, run against two public demo apps:
 
@@ -8,6 +9,8 @@ A small, deliberately well-structured test automation project built with **Playw
 |---|---|---|
 | [SauceDemo](https://www.saucedemo.com) | Web UI | Login rules, inventory sorting, cart state, end-to-end checkout |
 | [Restful-Booker](https://restful-booker.herokuapp.com/apidoc/index.html) | REST API | CRUD, filtering, auth enforcement, documented API quirks |
+
+**Twin repo:** [cypress-qa-showcase](https://github.com/RobBrowning/cypress-qa-showcase) runs the same tests, with the same titles, in Cypress.
 
 It exists to show how I approach automation as a QA lead: **fewer, clearer tests that each earn their place**, with the reasoning written down.
 
@@ -18,8 +21,26 @@ It exists to show how I approach automation as a QA lead: **fewer, clearer tests
 - **[`src/`](src)**: page objects, a typed API client and custom fixtures, so specs read as behaviour rather than plumbing.
 - **[`tests/`](tests)**: UI and API specs. `@smoke` tags mark the fast, high-value subset.
 - **[`.github/workflows/playwright.yml`](.github/workflows/playwright.yml)**: typecheck gate, then a parallel matrix (desktop, mobile, API), reports uploaded as artifacts, scheduled weekday run.
+- **[AI PR review](#ai-pr-review)**: every PR gets an automatic QA review from Claude, tuned to this repo's rules, including a check on Playwright Test Agent changes.
 - **[`docs/adr/`](docs/adr)**: lightweight Architecture Decision Records.
 - **[`CLAUDE.md`](CLAUDE.md)**: how this repo is set up for AI-assisted development with Claude Code.
+
+## AI PR review
+
+Every pull request gets an automatic first-pass review from Claude, using the official [Claude GitHub Action](https://github.com/anthropics/claude-code-action). It reads the PR's acceptance criteria first, then checks the tests against this repo's own rules, and posts an AC to test coverage table plus inline comments marked Blocker, Major or Minor.
+
+**What it checks** (rules in [`.github/claude-review-prompt.md`](.github/claude-review-prompt.md)):
+
+- Every acceptance criterion has a test.
+- No `waitForTimeout`, no weakened assertions, no `test.only`, no unexplained skips.
+- **Playwright Test Agent changes:** the healer may fix locators and timing, but any agent change to an expected value, an assertion or a skip is a Blocker ([ADR 0003](docs/adr/0003-playwright-test-agents.md)).
+- The conventions in [`CLAUDE.md`](CLAUDE.md): `getByTestId`/`getByRole` locators, fixtures, `@smoke` tags, titles that match the Cypress twin.
+
+**Guardrails:** comments only. The workflow token is read-only and Claude can only read the repo and post comments, so it can't push, approve or merge. Decision: [ADR 0004](docs/adr/0004-ai-pr-reviewer.md).
+
+**Evidence:** the same reviewer was tested in the twin repo on [PR #10](https://github.com/RobBrowning/cypress-qa-showcase/pull/10) with four seeded defects. It caught all four and three real issues nobody seeded, with no false positives. Anthropic's generic code-review plugin missed the acceptance criterion with no test.
+
+Need a second opinion on a PR? Mention `@claude` in a comment.
 
 ## Quick start
 
@@ -59,6 +80,10 @@ docs/
   test-strategy.md
   adr/
   new-repo-setup-guide.md
+.github/
+  workflows/   CI (playwright.yml), AI PR review (claude-review.yml), @claude (claude.yml)
+  claude-review-prompt.md   Rules the AI reviewer checks
+  pull_request_template.md
 ```
 
 ## Conventions
@@ -73,6 +98,8 @@ docs/
 
 - [x] MVP: UI + API suites, POM, fixtures, CI matrix
 - [x] Playwright Test Agents: planner, generator and healer, with PR review of every agent change (ADR 0003)
+- [x] AI PR reviewer: QA-focused Claude review on every PR, including agent changes (ADR 0004)
+- [ ] Ruleset on main to match the Cypress twin: required checks, resolved threads, squash only
 - [ ] Visual comparison for `visual_user` behaviour
 - [ ] Accessibility checks with axe-core
 - [ ] Contract-style schema validation on API responses
