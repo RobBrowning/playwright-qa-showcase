@@ -2,7 +2,7 @@
 
 This is **playwright-qa-showcase**, a Playwright + TypeScript portfolio suite testing SauceDemo (UI) and Restful-Booker (API).
 
-**Status (updated 2026-11-11):** MVP. UI and API suites, page objects, fixtures and CI matrix exist. Roadmap items in README are not started.
+**Status (updated 2026-11-17):** MVP. UI and API suites, page objects, fixtures, CI matrix and Playwright Test Agents exist. Every PR gets an automatic Claude QA review (ADR 0004).
 
 ## Hard rule
 
@@ -30,6 +30,14 @@ See ADR 0003. Planner, generator and healer live in `.claude/agents/`, the seed 
 - Every agent change (plan, generated test or heal) goes through PR review. Agent output is a draft.
 - The healer may fix locators and timing. It must never change expected values, assertions or skips (`test.skip`, `test.fixme`) without asking first. Pass this rule to the healer every time it runs.
 - Re-run `npx playwright init-agents --loop=claude` on every Playwright upgrade, then reapply the seed and `.mcp.json` changes and review the diff.
+
+## AI PR review
+
+- Every non-draft PR gets an automatic review from `.github/workflows/claude-review.yml`, using the rules in `.github/claude-review-prompt.md`. It comments only; it never pushes, approves or merges.
+- If you change a convention in this file, change the review prompt in the same PR so the reviewer checks the new rule.
+- Fill in the PR template's Acceptance criteria: the reviewer checks each one has a test.
+- Treat its Blockers like a human reviewer's: fix them or reply with a reason, then resolve the thread.
+- `@claude` in a PR or issue comment asks Claude a follow-up question (`.github/workflows/claude.yml`).
 
 ## Do not
 
