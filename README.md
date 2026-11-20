@@ -99,7 +99,7 @@ docs/
 - [x] MVP: UI + API suites, POM, fixtures, CI matrix
 - [x] Playwright Test Agents: planner, generator and healer, with PR review of every agent change (ADR 0003)
 - [x] AI PR reviewer: QA-focused Claude review on every PR, including agent changes (ADR 0004)
-- [ ] Ruleset on main to match the Cypress twin: required checks, resolved threads, squash only
+- [x] Ruleset on main to match the Cypress twin: required checks, resolved threads, squash only
 - [ ] Visual comparison for `visual_user` behaviour
 - [ ] Accessibility checks with axe-core
 - [ ] Contract-style schema validation on API responses
