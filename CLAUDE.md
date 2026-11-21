@@ -11,7 +11,7 @@ Never use an em dash or en dash in any file. Use a colon, comma or full stop ins
 ## Commands
 
 - `npm run typecheck`: must pass before any commit
-- `npm test`, `npm run test:smoke`, `npm run test:api`
+- `npm test`, `npm run test:smoke`, `npm run test:api`, `npm run test:a11y`
 - `npm run test:list`: proves selection without running
 
 ## Conventions

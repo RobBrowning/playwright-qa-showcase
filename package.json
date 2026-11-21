@@ -10,14 +10,17 @@
     "test": "playwright test",
     "test:web": "playwright test --project=ui-chromium",
     "test:api": "playwright test --project=api",
+    "test:a11y": "playwright test --project=ui-chromium a11y",
     "test:smoke": "playwright test --grep @smoke",
     "test:list": "playwright test --list",
     "typecheck": "tsc --noEmit",
     "report": "playwright show-report"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.65.0",
     "@types/node": "^22.20.5",
+    "axe-core": "4.14.0",
     "typescript": "^5.9.3"
   }
 }
