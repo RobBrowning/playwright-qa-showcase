@@ -33,6 +33,12 @@ Show a realistic, maintainable approach to automating a web app and an API, not 
 | Moderate and minor axe findings | Reported by axe and attached to the test report, but not gated. Gating them on a third-party app would mean permanently red runs; they belong in a manual accessibility review. |
 | Lenient product id parsing, for example `?id=01`, `?id=1.5`, `?id=1&id=2` (`specs/product-detail.md` 4.3) | A third-party parsing detail with no user-facing value. Asserting it would pin behaviour nobody checks by hand, and any change by the demo app would turn the suite red for no business reason. |
 
+### Tests with no Cypress twin
+
+| Test | Reason |
+|---|---|
+| `a11y-gate.spec.ts` (2 tests) | Proves the accessibility gate's own rules (moderate findings never fail it, a known issue skips only its own rule) on small local pages. Added here first, in PR #10, after the AI reviewer flagged those rules as untested. The Cypress twin's `checkA11ySerious()` would benefit from the same two checks. |
+
 ## Test selection
 
 Two questions drive what runs where:

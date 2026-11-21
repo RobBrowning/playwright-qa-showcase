@@ -12,8 +12,9 @@ export type GatedViolation = { id: string; impact: string; nodes: number; help: 
  * rule ID (see docs/test-strategy.md, "Accessibility gate") and only those rules are
  * skipped. The check is never switched off wholesale.
  *
- * The full axe result is attached to the test report so moderate and minor findings
- * stay visible for the manual accessibility review.
+ * The full axe result (every impact, plus incomplete checks) is attached to the
+ * test report so moderate and minor findings stay visible for the manual
+ * accessibility review.
  */
 export async function scanSeriousViolations(
   page: Page,
@@ -25,7 +26,7 @@ export async function scanSeriousViolations(
   const results = await builder.analyze();
 
   await testInfo.attach('axe-results', {
-    body: JSON.stringify(results.violations, null, 2),
+    body: JSON.stringify(results, null, 2),
     contentType: 'application/json',
   });
 

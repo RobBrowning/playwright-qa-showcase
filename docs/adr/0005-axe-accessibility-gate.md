@@ -9,9 +9,9 @@ The twin repo, [cypress-qa-showcase](https://github.com/RobBrowning/cypress-qa-s
 
 ## Decision
 
-- Use `@axe-core/playwright`, pinned to 4.14.0 so it runs the same axe-core rules as the Cypress twin.
+- Use `@axe-core/playwright` 4.14.0, with `axe-core` itself pinned to 4.14.0 as a direct dev dependency, so it runs exactly the same axe-core rules as the Cypress twin.
 - Scan the same three pages with the same three test titles, in `tests/ui/a11y.spec.ts`. The tests run in the `ui-chromium` project only (they are not `@smoke`).
-- Gate on **serious** and **critical** violations only. Moderate and minor findings are attached to the test report as JSON, not gated.
+- Gate on **serious** and **critical** violations only. The full axe result, moderate and minor findings included, is attached to the test report as JSON, not gated. `tests/ui/a11y-gate.spec.ts` proves both rules on local pages with known findings.
 - `src/a11y/axe.ts` runs the scan and returns the gated violations as plain data. The spec asserts the list is empty, so the business assertion stays in the spec (ADR 0002).
 - A known SauceDemo issue is skipped by axe rule ID for one page only, and recorded in `docs/test-strategy.md`. The check is never switched off wholesale.
 
