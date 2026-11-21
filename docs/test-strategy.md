@@ -16,6 +16,7 @@ Show a realistic, maintainable approach to automating a web app and an API, not 
 | Inventory sorting | Pure client logic, easy to regress, easy to assert | UI |
 | Cart state (badge add/remove) | Shared state across pages | UI |
 | Checkout journey + subtotal maths | Highest business value path | UI (E2E) |
+| Accessibility of login, inventory and checkout | Legal and user risk, and cheap to check automatically for the serious cases | UI (axe) |
 | Booking CRUD + filtering | Core API contract | API |
 | Auth enforcement on update | Security-relevant behaviour | API |
 
@@ -29,6 +30,7 @@ Show a realistic, maintainable approach to automating a web app and an API, not 
 | Restful-Booker PATCH | Same auth and payload rules as PUT. Adds runtime, not confidence. |
 | Cart state surviving a reload or direct URL on the product detail page (`specs/product-detail.md` 2.6) | No manual check replaces it. It exercises the demo app's client-side storage rather than a user journey, and cross-page cart state is already covered by scenarios 2.3 to 2.5. |
 | Browser back from the product detail page (`specs/product-detail.md` 3.2) | Browser history behaviour, not product logic. The app's own navigation is covered by "Back to products" (scenario 3.1). |
+| Moderate and minor axe findings | Reported by axe and attached to the test report, but not gated. Gating them on a third-party app would mean permanently red runs; they belong in a manual accessibility review. |
 | Lenient product id parsing, for example `?id=01`, `?id=1.5`, `?id=1&id=2` (`specs/product-detail.md` 4.3) | A third-party parsing detail with no user-facing value. Asserting it would pin behaviour nobody checks by hand, and any change by the demo app would turn the suite red for no business reason. |
 
 ## Test selection
@@ -51,9 +53,19 @@ Fixed when a test is written, so the suite stays legible as it grows:
 
 | Class | Meaning | Examples here |
 |---|---|---|
-| Structural | Stable regardless of data | Login errors, sorting |
+| Structural | Stable regardless of data | Login errors, sorting, accessibility |
 | State-specific | Depends on account or session state | Locked-out user, cart badge |
 | Data-generated | Creates its own data per run | All API tests |
+
+## Accessibility gate
+
+- `@axe-core/playwright` (4.14.0, same axe-core as the Cypress twin) runs on the login, inventory and checkout pages (ADR 0005).
+- The gate fails on **serious** and **critical** violations only. The full axe result is attached to each test's report.
+- A known SauceDemo issue that would fail the gate is recorded below by axe rule ID and passed to `scanSeriousViolations()` for that page only. It is never handled by turning the check off.
+
+| Page | Axe rule ID | Impact | Note |
+|---|---|---|---|
+| (none yet) | | | |
 
 ## Environments and data
 

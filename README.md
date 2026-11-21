@@ -60,6 +60,7 @@ npm test              # everything
 npm run test:smoke    # @smoke subset only
 npm run test:web      # desktop web UI project only
 npm run test:api      # API project only
+npm run test:a11y     # axe accessibility gate (desktop web)
 npm run report        # open the last HTML report
 ```
 
@@ -101,7 +102,7 @@ docs/
 - [x] AI PR reviewer: QA-focused Claude review on every PR, including agent changes (ADR 0004)
 - [x] Ruleset on main to match the Cypress twin: required checks, resolved threads, squash only
 - [ ] Visual comparison for `visual_user` behaviour
-- [ ] Accessibility checks with axe-core
+- [x] Accessibility checks with axe-core: login, inventory and checkout, serious and critical only, same titles as the Cypress twin (ADR 0005)
 - [ ] Contract-style schema validation on API responses
 - [ ] AI verifier: a locally run agent that independently re-checks failures before they are reported
 
