@@ -35,8 +35,9 @@ Every pull request gets an automatic first-pass review from Claude, using the of
 - No `waitForTimeout`, no weakened assertions, no `test.only`, no unexplained skips.
 - **Playwright Test Agent changes:** the healer may fix locators and timing, but any agent change to an expected value, an assertion or a skip is a Blocker ([ADR 0003](docs/adr/0003-playwright-test-agents.md)).
 - The conventions in [`CLAUDE.md`](CLAUDE.md): `getByTestId`/`getByRole` locators, fixtures, `@smoke` tags, titles that match the Cypress twin.
+- **Generator output is consolidated before review:** a leftover `// TODO(page-object)`, a locator duplicated from a page object or an `@playwright/test` import in a spec is a Blocker ([ADR 0006](docs/adr/0006-agent-output-follows-house-conventions.md)).
 
-**Guardrails:** comments only. The workflow token is read-only and Claude can only read the repo and post comments, so it can't push, approve or merge. Decision: [ADR 0004](docs/adr/0004-ai-pr-reviewer.md).
+**Guardrails:** comments only. The workflow token is read-only and Claude can only read the repo and post comments, so it can't push, approve or merge. Its findings are inline threads, and the ruleset requires every thread resolved before merge, so a Blocker can't be merged unnoticed. Decisions: [ADR 0004](docs/adr/0004-ai-pr-reviewer.md), [ADR 0006](docs/adr/0006-agent-output-follows-house-conventions.md).
 
 **Evidence:** the same reviewer was tested in the twin repo on [PR #10](https://github.com/RobBrowning/cypress-qa-showcase/pull/10) with four seeded defects. It caught all four and three real issues nobody seeded, with no false positives. Anthropic's generic code-review plugin missed the acceptance criterion with no test.
 
@@ -100,6 +101,7 @@ docs/
 - [x] MVP: UI + API suites, POM, fixtures, CI matrix
 - [x] Playwright Test Agents: planner, generator and healer, with PR review of every agent change (ADR 0003)
 - [x] AI PR reviewer: QA-focused Claude review on every PR, including agent changes (ADR 0004)
+- [x] Generator follows house conventions: reuse page objects, consolidate before review, reviewer Blockers for leftovers (ADR 0006)
 - [x] Ruleset on main to match the Cypress twin: required checks, resolved threads, squash only
 - [ ] Visual comparison for `visual_user` behaviour
 - [x] Accessibility checks with axe-core: login, inventory and checkout, serious and critical only, same titles as the Cypress twin (ADR 0005)
