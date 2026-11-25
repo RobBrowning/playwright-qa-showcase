@@ -4,6 +4,7 @@ import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
+import { MenuPage } from '../pages/MenuPage';
 import { BookingClient } from '../api/BookingClient';
 import { DEMO_PASSWORD, users } from '../data/users';
 
@@ -13,6 +14,7 @@ type Fixtures = {
   cartPage: CartPage;
   checkoutPage: CheckoutPage;
   productDetailPage: ProductDetailPage;
+  menu: MenuPage;
   /** Inventory page with standard_user already logged in. */
   loggedIn: InventoryPage;
   bookings: BookingClient;
@@ -24,6 +26,7 @@ export const test = base.extend<Fixtures>({
   cartPage: async ({ page }, use) => use(new CartPage(page)),
   checkoutPage: async ({ page }, use) => use(new CheckoutPage(page)),
   productDetailPage: async ({ page }, use) => use(new ProductDetailPage(page)),
+  menu: async ({ page }, use) => use(new MenuPage(page)),
   loggedIn: async ({ loginPage, inventoryPage }, use) => {
     await loginPage.goto();
     await loginPage.login(users.standard, DEMO_PASSWORD);
