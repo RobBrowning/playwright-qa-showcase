@@ -1,4 +1,5 @@
 import { test, expect } from '../../src/fixtures/test';
+import { notLoggedInError } from '../../src/data/errors';
 import { DEMO_PASSWORD, users } from '../../src/data/users';
 
 test.describe('Login', () => {
@@ -38,6 +39,6 @@ test.describe('Login', () => {
 
   test('inventory is not reachable without logging in', async ({ page, loginPage }) => {
     await page.goto('/inventory.html');
-    await expect(loginPage.error).toContainText("You can only access '/inventory.html' when you are logged in");
+    await expect(loginPage.error).toContainText(notLoggedInError('/inventory.html'));
   });
 });

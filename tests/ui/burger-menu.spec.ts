@@ -2,6 +2,7 @@
 // consolidated (ADR 0006). Quirk numbers refer to the plan's "Observed quirks".
 // No Cypress twin yet (docs/test-strategy.md, "Tests with no Cypress twin").
 import { test, expect } from '../../src/fixtures/test';
+import { notLoggedInError } from '../../src/data/errors';
 
 test.describe('Burger menu', () => {
   test.describe('open and close', () => {
@@ -87,7 +88,7 @@ test.describe('Burger menu', () => {
       // Quirk 6: About leaves the app, in the same tab, to a third-party site. It is not clicked,
       // so CI never depends on saucelabs.com loading. The href plus no target covers the manual check.
       await expect(menu.aboutLink).toHaveAttribute('href', 'https://saucelabs.com/');
-      await expect(menu.aboutLink).not.toHaveAttribute('target', /.*/);
+      await expect(menu.aboutLink).not.toHaveAttribute('target');
     });
   });
 
@@ -107,15 +108,15 @@ test.describe('Burger menu', () => {
       // The banner wording is third-party behaviour (quirk 7): it names the page requested.
       await page.goBack();
       await expect(page).toHaveURL(/\/$/);
-      await expect(loginPage.error).toContainText("You can only access '/inventory.html' when you are logged in");
+      await expect(loginPage.error).toContainText(notLoggedInError('/inventory.html'));
 
       await page.goto('/inventory.html');
       await expect(page).toHaveURL(/\/$/);
-      await expect(loginPage.error).toContainText("You can only access '/inventory.html' when you are logged in");
+      await expect(loginPage.error).toContainText(notLoggedInError('/inventory.html'));
 
       await page.goto('/cart.html');
       await expect(page).toHaveURL(/\/$/);
-      await expect(loginPage.error).toContainText("You can only access '/cart.html' when you are logged in");
+      await expect(loginPage.error).toContainText(notLoggedInError('/cart.html'));
     });
   });
 
