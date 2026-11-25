@@ -29,7 +29,12 @@ See ADR 0003. Planner, generator and healer live in `.claude/agents/`, the seed 
 
 - Every agent change (plan, generated test or heal) goes through PR review. Agent output is a draft.
 - The healer may fix locators and timing. It must never change expected values, assertions or skips (`test.skip`, `test.fixme`) without asking first. Pass this rule to the healer every time it runs.
-- Re-run `npx playwright init-agents --loop=claude` on every Playwright upgrade, then reapply the seed and `.mcp.json` changes and review the diff.
+- Re-run `npx playwright init-agents --loop=claude` on every Playwright upgrade, then reapply the seed, `.mcp.json` and the generator's "House conventions" section (ADR 0006) and review the diff.
+- Generator output is not ready for a PR until it has been consolidated (ADR 0006). After the generator runs, ask Claude Code (not an agent) to:
+  1. Merge the one-file-per-scenario output into one spec per page or area, with a `describe` per plan group, reusing an existing spec where there is one.
+  2. Resolve every `// TODO(page-object)` by adding the method to the page object (or a new page object in `src/pages/`, registered in `src/fixtures/test.ts`), then using it from the spec.
+  3. Remove any helper or locator that duplicates one that already exists.
+  4. Run `npm run typecheck` and the affected tests.
 
 ## AI PR review
 

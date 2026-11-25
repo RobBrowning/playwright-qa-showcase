@@ -26,6 +26,19 @@ application behavior.
     multiple actions.
   - Always use best practices from the log when generating tests.
 
+# House conventions (this repo, ADR 0006)
+
+These rules override the generic example below. Reapply this section after every `npx playwright init-agents` run.
+
+- Before writing anything, read `CLAUDE.md`, `src/fixtures/test.ts` and every file in `src/pages/`.
+- Import `test` and `expect` from `src/fixtures/test.ts` (relative path from the spec), never from `@playwright/test`.
+- Start from the fixture that matches the plan's starting state (for example `loggedIn`), not from a bare `page` plus a manual login.
+- Use existing page object fixtures and methods for every step they cover. Do not inline a `data-test` id or locator that a page object already exposes.
+- You cannot create or edit page objects. If a step needs a locator or action that no page object has, write it inline and put `// TODO(page-object): <PageName>.<methodName>` on the line above. Do not invent methods that do not exist: the file must pass `npm run typecheck`.
+- Keep business assertions (expected text, prices, counts) in the spec, never in a page object.
+- Locators: `getByTestId` (attribute `data-test`) or `getByRole` only. No CSS chains, no XPath.
+- In the test title or a comment, name the manual check the test replaces, as given in the plan.
+
    <example-generation>
    For following plan:
 

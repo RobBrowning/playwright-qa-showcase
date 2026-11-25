@@ -25,6 +25,9 @@ You are reviewing a pull request in playwright-qa-showcase, a Playwright + TypeS
 **Playwright Test Agents (Blocker)**
 - A change produced by the planner, generator or healer (see ADR 0003) is a draft. The healer may fix locators and timing only.
 - Any agent change that alters an expected value, an assertion, or adds a skip or fixme is a **Blocker**, even if the test now passes. Quote the CLAUDE.md healer rule.
+- Any `// TODO(page-object)` comment left in a spec is a **Blocker**: generator output has not been consolidated (ADR 0006).
+- A spec that inlines a `data-test` id or locator an existing page object already exposes, or that imports `test` from `@playwright/test` instead of `src/fixtures/test.ts`, is a **Blocker** (ADR 0006).
+- One new spec file per scenario for the same page or area is a **Major**: merge them into one spec with a `describe` per plan group.
 
 **Repo conventions (Major)**
 - Locators use `getByTestId` (attribute `data-test`) or `getByRole`. No CSS chains, no XPath.
